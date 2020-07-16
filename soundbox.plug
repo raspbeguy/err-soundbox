@@ -1,0 +1,9 @@
+[Core]
+Name = Soundbox
+Module = soundbox
+
+[Python]
+Version = 2+
+
+[Documentation]
+Description = Soundbox plugin
