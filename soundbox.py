@@ -1,5 +1,4 @@
 from errbot import BotPlugin, botcmd
-import yaml
 import subprocess
 
 class Sound():
