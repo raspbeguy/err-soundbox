@@ -10,6 +10,17 @@ You have to install `mpv` media player. Maybe someday you will be able to specif
 
 Sounds should be uploaded to a given directory, by default `/srv/sounds`. See `!plugin config Soundbox`.
 
+# Install
+
+```
+!repos install https://github.com/raspbeguy/err-soundbox
+```
+
+# Configuration
+
+- `CHECK_IF_EXISTS`: Checks if the sound file exists before adding a sound with `!soundbox add`, fails if not present. Default `true`.
+- `SOUNDS_PATH`: Path where sounds are played from. Default `/srv/sounds`.
+
 # Commands
 
 - `!soundbox add <filename> <alias1> [<alias2>...]`: Add a sound with a list of aliases. The sound file should be already present in the sounds directory.
