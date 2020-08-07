@@ -1,5 +1,6 @@
 from errbot import BotPlugin, botcmd
 import subprocess
+from pathlib import Path
 
 class Sound():
     def __init__(self, filename, aliases):
@@ -40,7 +41,7 @@ class Soundbox(BotPlugin):
             self["SOUNDS"]=[]
 
     def get_configuration_template(self):
-        return {'SOUNDS_PATH': '/srv/sounds'}
+        return {'SOUNDS_PATH': '/srv/sounds', 'CHECK_IF_EXISTS': True}
 
     @botcmd
     def soundbox_list(self, msg, args):
@@ -53,6 +54,10 @@ class Soundbox(BotPlugin):
     @botcmd(split_args_with=None)
     def soundbox_add(self, msg, args):
         """Add a sound"""
+        if self.config["CHECK_IF_EXISTS"]:
+            with Path("{}/{}".format(self.config["SOUNDS_PATH"],args[0])):
+                if not file.is_file():
+                    return "No file {} was found in {}".format(args[0],self.config["SOUNDS_PATH"])
         sound = Sound(args[0],args[1:])
         with self.mutable('SOUNDS') as sounds_list:
             sounds_list.append(sound)
@@ -80,7 +85,10 @@ class Soundbox(BotPlugin):
         if sound == None:
             return "Sound {} not found.".format(args)
         with self.mutable('SOUNDS') as sounds_list:
-            sounds_list.remove(sound)
+            for sound in sounds_list:
+                if args in sound.aliases:
+                    sounds_list.remove(sound)
+                    break
         return "Sound was successfully removed."
 
     @botcmd
